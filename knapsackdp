@@ -1,0 +1,66 @@
+#include<stdio.h>
+#include<time.h>
+clock_t start,end;
+double time_taken;
+
+int max(int num1, int num2) 
+{
+    return (num1 > num2 ) ? num1 : num2;
+}
+
+int knapsack(int p[10], int wt[10],int n,int m)
+{
+	int k[n+1][m+1],i,j;
+
+	for(i=0;i<=n;i++)
+	{
+		for(j=0;j<=m;j++)
+		{
+			if(i==0 || j==0)
+				k[i][j]=0;
+
+			else if(wt[i-1]<=j)
+				k[i][j]=max(p[i-1] + k[i-1][j-wt[i-1]], k[i-1][j]);
+
+			else
+				k[i][j]=k[i-1][j];
+ 		}
+ 	}
+ 	return k[n][m];
+}
+
+
+
+int main()
+{
+	int n,m,i,wt[10],p[10];
+
+	printf("Enter the number of objects: ");
+	scanf("%d",&n);
+
+	printf("Enter the maximum capacity: ");
+	scanf("%d", &m);
+
+
+    printf("Enter the weight of the objects: ");
+	for(i=0;i<n;i++)
+	{
+		scanf("%d",&wt[i]);  
+	}
+
+	printf("Enter the profit of the objects: ");
+	for(i=0;i<n;i++)
+	{
+		scanf("%d",&p[i]);
+
+	}
+
+	start=clock();
+	printf("%d",knapsack(p,wt,n,m));
+	end=clock();
+
+	time_taken=((double)(end-start))/CLOCKS_PER_SEC;
+
+	printf("Time taken to execute %lf, start time=%ld, end time=%ld",time_taken,start,end); 
+	return 0;
+}
