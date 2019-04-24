@@ -1,0 +1,95 @@
+#include<stdio.h>
+#include<stdbool.h>
+#define INT_MAX 9999
+
+int minkey(int v,int keyvalue[100],bool mstarray[100])
+{
+	int i,min=INT_MAX,min_index;
+	for(i=0;i<v;i++)
+	{
+		if(mstarray[i]==false && keyvalue[i]< min)
+		{
+			min=keyvalue[i], min_index=i;
+		}
+	}
+
+	return min_index;
+}
+
+int display(int parentarray[100],int v,int graph[v][v])
+{
+	int i;
+
+	printf("Edge \t Weight\n");
+
+	for(i=1; i<v; i++)
+	{
+		printf("%d - %d \t%d \n",parentarray[i],i,graph[i][parentarray[i]]);
+	}
+}
+void primMst(int graph[5][5],int v)
+{
+	int i,j,u,keyvalue[100],parentarray[100];
+	bool mstarray[100];
+
+	for(i=0;i<v;i++)
+	{
+		keyvalue[i]=INT_MAX;
+		mstarray[i]=false;
+	}
+	keyvalue[0]=0;
+	parentarray[0]=-1;
+
+	for(i=0;i<v-1;i++)
+	{
+		u=minkey(v,keyvalue,mstarray);
+
+		mstarray[u]=true;
+
+		for(j=0;j<v;j++)
+		{
+			if(graph[u][j]!=0)
+			{
+				if(mstarray[j]==false)
+				{
+					if(graph[u][j]<keyvalue[j])
+					{
+						parentarray[j]=u;
+						keyvalue[j]=graph[u][j];
+					}
+				}
+			}
+
+		}
+	}
+	display(parentarray,v,graph);
+}
+
+int main()
+{
+	//int m,n,i,j,graph[10][10],v;
+	int m,n,i,j ,v;
+
+	printf("Enter the size of matrix: ");
+	scanf("%d %d",&m,&n);
+
+	printf("Enter the number of vertices: ");
+	scanf("%d",&v);
+/*
+	printf("Enter the vertices: ");
+	for(i=0;i<m;i++)
+	{
+		for(j=0;j<n;j++)
+		{
+			scanf("%d",&graph[i][j]);
+		}
+	}
+*/
+	int graph[5][5] = {{0, 2, 0, 6, 0}, 
+                    {2, 0, 3, 8, 5}, 
+                    {0, 3, 0, 0, 7}, 
+                    {6, 8, 0, 0, 9}, 
+                    {0, 5, 7, 9, 0}}; 
+	primMst(graph,v);
+	return 0;
+}
