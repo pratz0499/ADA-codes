@@ -2,6 +2,7 @@
 #include<stdbool.h>
 #define INT_MAX 9999
 
+
 int minkey(int v,int keyvalue[100],bool mstarray[100])
 {
 	int i,min=INT_MAX,min_index;
@@ -67,24 +68,8 @@ void primMst(int graph[5][5],int v)
 
 int main()
 {
-	//int m,n,i,j,graph[10][10],v;
-	int m,n,i,j ,v;
-
-	printf("Enter the size of matrix: ");
-	scanf("%d %d",&m,&n);
-
-	printf("Enter the number of vertices: ");
-	scanf("%d",&v);
-/*
-	printf("Enter the vertices: ");
-	for(i=0;i<m;i++)
-	{
-		for(j=0;j<n;j++)
-		{
-			scanf("%d",&graph[i][j]);
-		}
-	}
-*/
+	int v=5;
+	
 	int graph[5][5] = {{0, 2, 0, 6, 0}, 
                     {2, 0, 3, 8, 5}, 
                     {0, 3, 0, 0, 7}, 
