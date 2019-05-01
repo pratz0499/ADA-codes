@@ -1,0 +1,64 @@
+#include<stdio.h>
+#include<time.h>
+#define INT_MAX 999
+
+clock_t start,end;
+double cpu_time_used;
+
+int matrixchain(int arr[], int n)
+{
+	int m[n][n];
+	int i,j,k,l,q;
+
+	for(i=1;i<n;i++)
+	{
+		m[i][i]=0;
+	}
+
+	for(l=2;l<n; l++)
+	{
+		for(i=1;i<n-l+1;i++)
+		{
+			j=i+l-1;
+			m[i][j]= INT_MAX;
+			for(k=i;k<=j-1;k++)
+			{
+				q=m[i][k]+m[k+1][j]+arr[i-1]*arr[k]*arr[j];
+				if(q<m[i][j])
+					m[i][j]=q;
+			}
+		}
+	}
+	return m[1][n-1];
+}
+
+
+
+
+
+
+int main()
+{
+	int arr[10],n,i;
+
+	printf("Enter the size of the array: ");
+	scanf("%d",&n);
+
+	printf("Enter the array elements: ");
+	for(i=0;i<n;i++)
+	{
+		scanf("%d",&arr[i]);
+	}
+    
+
+    start=clock();
+	printf("Minimum number of multiplication is %d",matrixchain(arr,n));
+	getchar();
+	end=clock();
+	cpu_time_used=((double)(end-start))/CLOCKS_PER_SEC;
+
+	printf("The total time taken is %lf, start time=%ld,end time=%ld",cpu_time_used,start,end);
+
+	
+	return 0;
+}
