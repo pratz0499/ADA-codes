@@ -1,0 +1,64 @@
+#include<stdio.h>
+#include<time.h>
+clock_t start,end;
+double time_taken;
+
+int max(int a,int b)
+{
+	return (a > b)? a : b; 
+}
+
+int lcs(char x[10],char y[10],int a,int b)
+{
+	int l[a+1][b+1];
+	int i,j;
+
+	for(i=0;i<=a;i++)
+	{
+		for(j=0;j<=b;j++)
+		{
+			if(i==0 ||j==0)
+				l[i][j]=0;
+			else if(x[i-1]==y[j-1])
+				l[i][j]=l[i-1][j-1] + 1;
+
+			else
+				l[i][j] = max(l[i-1][j],l[i][j-1]); 
+		}
+	}
+return l[a][b];
+}
+
+int main()
+{
+	char x[10];
+	char y[10];
+	int a,b,i,j;
+
+	printf("Enter the length of the 1st string: ");
+	scanf("%d",&a);
+
+	printf("Enter the length of second string: ");
+	scanf("%d",&b);
+
+	printf("Enter the 1st string: ");
+	for(i=0;i<a;i++)
+	{
+		scanf("%c",&x[i]);
+	}
+
+	printf("Enter the 2nd string: ");
+	for(j=0;j<b;j++)
+	{
+		scanf("%c",&y[j]);
+	}
+    start=clock();
+	printf("Length of LCS is %d",lcs(x,y,a,b));
+	end=clock();
+
+	time_taken=((double)(end-start))/CLOCKS_PER_SEC;
+
+	printf("Total time taken: %lf\nstart time: %ld\nend time: %ld\n",time_taken,start,end);
+
+	return 0;
+}
