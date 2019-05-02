@@ -1,0 +1,85 @@
+#include<stdio.h>
+#include<time.h>
+#define v 5
+#define INT_MAX 999
+int parent[v];
+clock_t start, end;
+double cpu_time_used;
+
+
+int find(int i)
+{
+    while (parent[i] != i) 
+        i = parent[i]; 
+    
+    return i;
+}
+
+void union1(int i, int j) 
+{ 
+    int a = find(i); 
+    int b = find(j); 
+    parent[a] = b; 
+} 
+
+
+void kruskal(int cost[v][v])
+{
+  int mincost=0;
+  int a,b;
+  int min;
+  
+
+  for(int i=0;i<v;i++)
+  {
+    parent[i]=i;
+  }
+
+    int edge_count=0;
+    while(edge_count<v-1)
+    {
+      min=INT_MAX;
+      a=-1;
+      b=-1;
+
+      for(int i=0;i<v;i++)
+      {
+        for(int j=0;j<v;j++)
+        {
+          if(find(i)!=find(j) && cost[i][j]< min)
+          {
+            min=cost[i][j];
+            a=i;
+            b=j;
+          }
+        }
+      }
+      union1(a,b);
+      printf("Edge %d:(%d,%d) cost: %d \n",edge_count++,a,b,min);
+      mincost+=min;
+    }
+
+      
+      printf("\n minimum cost =%d \n",mincost);
+}
+
+int main()
+{
+
+  int cost[v][v]={ 
+        { INT_MAX, 2, INT_MAX, 6, INT_MAX }, 
+        { 2, INT_MAX, 3, 8, 5 }, 
+        { INT_MAX, 3, INT_MAX, INT_MAX, 7 }, 
+        { 6, 8, INT_MAX, INT_MAX, 9 }, 
+        { INT_MAX, 5, 7, 9, INT_MAX }, 
+    };
+
+              start=clock();
+              kruskal(cost);
+              end=clock();
+
+    cpu_time_used=((double)(end-start))/CLOCKS_PER_SEC;
+    
+    printf("The total time taken is %lf, start time=%ld,end time=%ld",cpu_time_used,start,end);          
+    return 0;
+}
