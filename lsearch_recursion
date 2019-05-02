@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include<time.h>
+clock_t start,end;
+double time_taken;
+ 
+ int search(int array[], int size, int key)
+{
+    int location;
+    if (array[size] == key)
+    {
+        return size;
+    }
+    else if (size == -1)
+    {
+        return -1;
+    }
+    else
+    {
+        return (location = search(array, size - 1, key));
+    }
+}
+
+int main()
+{
+    int size, index, key;
+    int list[20];
+    int count = 0;
+    int i;
+ 
+    printf("Enter the size of the list: ");
+    scanf("%d", &size);
+    index = size;
+    printf("Printing the list:\n");
+    for (i = 0; i < size; i++)
+    {
+        list[i] = rand() % size;
+        printf("%d\t", list[i]);
+    }
+    printf("\nEnter the key to search: ");
+    scanf("%d", &key);
+    start=clock();
+    while (index > 0)
+    {
+        index = search(list, index - 1, key);
+        /* In an array first position is indexed by 0 */
+        printf("Key found at position: %d\n", index + 1);
+        count++;
+    }
+    if (!count)
+        printf("Key not found.\n");
+    end=clock();
+
+    time_taken=((double)(end-start))/CLOCKS_PER_SEC;
+    printf("Total time taken:%lf\nstart time:%ld\nend time:%ld",time_taken,start,end);
+    return 0;
+}
